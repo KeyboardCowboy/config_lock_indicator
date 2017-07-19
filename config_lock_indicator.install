@@ -1,0 +1,20 @@
+<?php
+/**
+ * @file
+ * Database management.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function config_lock_indicator_install() {
+  // Ensure this is the last module to load.
+  $query = db_select('system');
+  $query->addExpression('MAX(weight)');
+  $weight = $query->execute()->fetchField();
+
+  db_update('system')
+    ->fields(array('weight' => $weight + 1))
+    ->condition('name', 'config_lock_indicator')
+    ->execute();
+}

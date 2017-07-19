@@ -1,0 +1,9 @@
+name = Config Lock Indicator
+description = "Disables and flags config form fields whose values are locked by the settings.php file."
+core = 7.x
+version = 7.x-1.0-dev
+package = "Administration"
+
+; configure =
+; dependencies[] =
+; files[] =

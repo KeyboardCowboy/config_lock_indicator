@@ -1,0 +1,23 @@
+<?php
+/**
+ * @file
+ * Drupal hooks.
+ */
+
+require_once __DIR__ . '/includes/config_lock_indicator.inc';
+
+/**
+ * Implements hook_form_alter().
+ */
+function config_lock_indicator_form_alter(&$form, &$form_state, $form_id) {
+  $dummy_form = system_settings_form(array());
+
+  // Only run the checks on forms wrapped in system_settings_form().  Custom
+  // forms may store their data in any custom format while system settings
+  // stores the values as the form field names. (Not 100% foolproof, but the
+  // best we can do for now).
+  if (isset($form['actions']['submit']['#value']) && $form['actions']['submit']['#value'] === $dummy_form['actions']['submit']['#value']) {
+    $settings = config_lock_indicator_get_settings();
+    config_lock_indicator_check_locked_form_fields($form, $settings);
+  }
+}
